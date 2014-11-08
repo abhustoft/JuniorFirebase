@@ -1,0 +1,23 @@
+<!-- public/views/nerd.html -->
+
+<div class="jumbotron text-center">
+    <h1>Nerds and Proud</h1>
+
+    <p>{{ tagline }}</p>
+    <p>{{ abh.name }}</p>
+</div>
+
+
+<span>I have {{nerds.length}} nerds. They are:</span>
+<input type="search" ng-model="q" placeholder="filter nerds..." />
+<ul class="example-animate-container">
+    <li class="animate-repeat" ng-repeat="nerd in nerds | filter:q as results">
+        [{{$index + 1}}] {{nerd.name}} who lives in {{nerd.street}} street.
+    </li>
+    <p class="animate-repeat" ng-if="results.length == 0">
+        <strong>No results found...</strong>
+    </p>
+</ul>
+
+
+

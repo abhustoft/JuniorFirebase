@@ -1,0 +1,14 @@
+<div class="jumbotron text-center">
+    <h1>More nerds</h1>
+
+    <ng-form name="nerdForm" >
+        First name: <input type="text"  ng-model="user.firstName">
+        Last name<input type="text"  ng-model="user.lastName">
+        City:<input type="text"  ng-model="user.city">
+        Street<input type="text"  ng-model="user.street">
+        <button ng-click="saveUser(user)" type="submit">Save</button>
+    </ng-form>
+
+    <p>{{ user }}</p>
+
+</div>
