@@ -19,7 +19,18 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
         .when('/admin', {
             templateUrl: 'views/admin.html',
             controller: 'AdminController'
-        });
+        })
+
+        .when('/stores', {
+            templateUrl: 'views/store.html',
+            controller: 'StoreController'
+        })
+
+        .when('/sales', {
+            templateUrl: 'views/sale.html',
+            controller: 'SaleController'
+        })
+    ;
 
     $locationProvider.html5Mode(true);
 

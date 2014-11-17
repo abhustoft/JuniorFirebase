@@ -1,11 +1,7 @@
-/**
- * Created by abhustoft on 05.11.14.
- */
-// app/routes.js
 
-// grab the nerd models we just created
-var Nerd = require('./models/nerd');
+var Nerd  = require('./models/nerd');
 var Store = require('./models/store');
+var Sale  = require('./models/sale');
 
 module.exports = function(app, express) {
 
@@ -51,11 +47,11 @@ module.exports = function(app, express) {
         // get all the nerds (accessed at GET http://localhost:8080/api/nerds)
         .get(function(req, res) {
 
-            Store.find(function(err, stores) {
+            Store.find(function(err, nerds) {
                 if (err)
-                    console.log('Get stores error: ' + err);
+                    console.log('Get nerds error: ' + err);
 
-                console.log('Got stores: ' + stores);
+                console.log('Got nerds: ' + nerds);
             });
 
             Nerd.find(function(err, nerds) {
@@ -63,6 +59,84 @@ module.exports = function(app, express) {
                     res.send(err);
 
                 res.json(nerds);
+            });
+        });
+
+    // on routes that end in /stores
+    // ----------------------------------------------------
+    router.route('/stores')
+
+        // create a store (accessed at POST http://localhost:8080/api/stores)
+        .post(function(req, res) {
+
+            var store = new Store();
+            store.name = req.body.name;
+            store.manager = req.body.manager;
+
+            // save the store and check for errors
+            store.save(function(err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({ message: 'Store created!' });
+            });
+
+        })
+
+        // get all the stores (accessed at GET http://localhost:8080/api/stores)
+        .get(function(req, res) {
+
+            Store.find(function(err, stores) {
+                if (err)
+                    console.log('Get stores error: ' + err);
+
+                console.log('Got stores: ' + stores);
+            });
+
+            Store.find(function(err, stores) {
+                if (err)
+                    res.send(err);
+
+                res.json(stores);
+            });
+        });
+
+    // on routes that end in /sales
+    // ----------------------------------------------------
+    router.route('/sales')
+
+        // create a sale (accessed at POST http://localhost:8080/api/sales)
+        .post(function(req, res) {
+
+            var sale = new Sale();
+            sale.amount = req.body.amount;
+            sale.date = req.body.date;
+
+            // save the sale and check for errors
+            sale.save(function(err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({ message: 'sale created!' });
+            });
+
+        })
+
+        // get all the sales (accessed at GET http://localhost:8080/api/sales)
+        .get(function(req, res) {
+
+            Sale.find(function(err, sales) {
+                if (err)
+                    console.log('Get sales error: ' + err);
+
+                console.log('Got sales: ' + sales);
+            });
+
+            Sale.find(function(err, sales) {
+                if (err)
+                    res.send(err);
+
+                res.json(sales);
             });
         });
 

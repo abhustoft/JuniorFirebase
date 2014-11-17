@@ -1,0 +1,22 @@
+<!-- public/views/nerd.html -->
+
+<div class="jumbotron text-center">
+    <h1>Sales</h1>
+
+    <p>{{ tagline }}</p>
+</div>
+
+
+<span>I have {{sales.length}} sales. They are:</span>
+<input type="search" ng-model="q" placeholder="filter sales..." />
+<ul class="example-animate-container">
+    <li class="animate-repeat" ng-repeat="sale in sales | filter:q as results">
+        [{{$index + 1}}] {{sale.amount}} dato: {{sale.date}}
+    </li>
+    <p class="animate-repeat" ng-if="results.length == 0">
+        <strong>No results found...</strong>
+    </p>
+</ul>
+
+
+
