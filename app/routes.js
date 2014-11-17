@@ -1,5 +1,4 @@
 
-var Nerd  = require('./models/nerd');
 var Store = require('./models/store');
 var Sale  = require('./models/sale');
 
@@ -22,45 +21,6 @@ module.exports = function(app, express) {
     router.get('/', function(req, res) {
         res.json({ message: 'hooray! welcome to our api!' });
     });
-
-    // on routes that end in /nerds
-    // ----------------------------------------------------
-    router.route('/nerds')
-
-        // create a nerd (accessed at POST http://localhost:8080/api/nerds)
-        .post(function(req, res) {
-
-            var nerd = new Nerd(); 		// create a new instance of the Nerd model
-            nerd.name = req.body.name;  // set the nerds name (comes from the request)
-            nerd.street = req.body.street;
-
-            // save the nerd and check for errors
-            nerd.save(function(err) {
-                if (err) {
-                    res.send(err);
-                }
-                res.json({ message: 'Nerd created!' });
-            });
-
-        })
-
-        // get all the nerds (accessed at GET http://localhost:8080/api/nerds)
-        .get(function(req, res) {
-
-            Store.find(function(err, nerds) {
-                if (err)
-                    console.log('Get nerds error: ' + err);
-
-                console.log('Got nerds: ' + nerds);
-            });
-
-            Nerd.find(function(err, nerds) {
-                if (err)
-                    res.send(err);
-
-                res.json(nerds);
-            });
-        });
 
     // on routes that end in /stores
     // ----------------------------------------------------

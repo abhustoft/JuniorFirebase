@@ -6,17 +6,12 @@ var app = angular.module('sampleApp', ['ngRoute',
     'ngResource',
     'appRoutes',
     'MainCtrl',
-    'NerdCtrl',
     'StoreCtrl',
     'SaleCtrl',
     'AdminCtrl']);
 
 app.factory('storeFactory', function($resource) {
     return $resource('/api/stores/:id');
-});
-
-app.factory('nerdFactory', function($resource) {
-    return $resource('/api/nerds/:id');
 });
 
 app.factory('saleFactory', function($resource) {

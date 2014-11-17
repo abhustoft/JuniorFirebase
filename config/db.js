@@ -4,5 +4,5 @@
 
 // config/db.js
 module.exports = {
-    url : 'mongodb://localhost/nerdsDB'
+    url : 'mongodb://localhost/stores'
 }
