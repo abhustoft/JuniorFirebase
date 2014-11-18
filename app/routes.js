@@ -32,6 +32,9 @@ module.exports = function(app, express) {
             var store = new Store();
             store.name = req.body.name;
             store.manager = req.body.manager;
+            store.highSaleDay = req.body.highSaleDay;
+            store.highSaleWeek = req.body.highSaleWeek;
+            store.highSaleMonth = req.body.highSaleMonth;
 
             // save the store and check for errors
             store.save(function(err) {
@@ -71,6 +74,7 @@ module.exports = function(app, express) {
             var sale = new Sale();
             sale.amount = req.body.amount;
             sale.date = req.body.date;
+            sale.store = req.body.store;
 
             // save the sale and check for errors
             sale.save(function(err) {
@@ -100,32 +104,32 @@ module.exports = function(app, express) {
             });
         });
 
-    // on routes that end in /nerds/:nerd_id
+    // on routes that end in /sales/:sale_id
 // ----------------------------------------------------
-    router.route('/nerds/:nerd_id')
+    router.route('/sales/:stale_id')
 
-        // get the nerd with that id (accessed at GET http://localhost:8080/api/nerds/:nerd_id)
+        // get the sale with that id (accessed at GET http://localhost:8080/api/sales/:sale_id)
         .get(function(req, res) {
-            Nerd.findById(req.params.nerd_id, function(err, nerd) {
+            Sale.findById(req.params.sale_id, function(err, sale) {
                 if (err)
                     res.send(err);
-                res.json(nerd);
+                res.json(sale);
             });
         })
 
-        // update the nerd with this id (accessed at PUT http://localhost:8080/api/nerds/:nerd_id)
+        // update the sale with this id (accessed at PUT http://localhost:8080/api/sales/:sale_id)
         .put(function(req, res) {
 
-            // use our nerd model to find the nerd we want
-            Nerd.findById(req.params.nerd_id, function(err, nerd) {
+            // use our sale model to find the sale we want
+            Sale.findById(req.params.sale_id, function(err, sale) {
 
                 if (err)
                     res.send(err);
 
-                nerd.name = req.body.name; 	// update the nerds info
+                sale.name = req.body.name; 	// update the sales info
 
-                // save the nerd
-                nerd.save(function(err) {
+                // save the sale
+                sale.save(function(err) {
                     if (err)
                         res.send(err);
 
@@ -135,11 +139,11 @@ module.exports = function(app, express) {
             });
         })
 
-        // delete the nerd with this id (accessed at DELETE http://localhost:8080/api/nerds/:nerd_id)
+        // delete the sale with this id (accessed at DELETE http://localhost:8080/api/sales/:nerd_id)
         .delete(function(req, res) {
-            Nerd.remove({
-                _id: req.params.nerd_id
-            }, function(err, nerd) {
+            Sale.remove({
+                _id: req.params.sale_id
+            }, function(err, sale) {
                 if (err)
                     res.send(err);
 
