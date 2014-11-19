@@ -8,22 +8,26 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 
         .when('/', {
             templateUrl: 'views/home.html',
-            controller: 'MainController'
+            controller: 'MainController',
+            controllerAs: 'MainCtrl'
         })
 
         .when('/admin', {
             templateUrl: 'views/admin.html',
-            controller: 'AdminController'
+            controller: 'AdminController',
+            controllerAs: 'AdminCtrl'
         })
 
         .when('/stores', {
             templateUrl: 'views/store.html',
-            controller: 'StoreController'
+            controller: 'StoreController',
+            controllerAs: 'StoreCtrl'
         })
 
         .when('/sales', {
             templateUrl: 'views/sale.html',
-            controller: 'SaleController'
+            controller: 'SaleController',
+            controllerAs: 'SaleCtrl'
         })
     ;
 

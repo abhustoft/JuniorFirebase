@@ -1,21 +1,20 @@
 
-angular.module('AdminCtrl', []).controller('AdminController', function($scope,
-                                                                       storeFactory,
+angular.module('AdminCtrl', []).controller('AdminController', function(storeFactory,
                                                                        saleFactory) {
-    $scope.store = {};
-    $scope.saveStore = function (store) {
-        $scope.store = angular.copy(store);
-        console.log($scope.store.name);
-        var store = {'name': $scope.store.name,'manager': $scope.store.manager};
+    this.store = {};
+    this.saveStore = function (store) {
+        this.store = angular.copy(store);
+        console.log(this.store.name);
+        var store = {'name': this.store.name,'manager': this.store.manager};
         console.log(store);
         storeFactory.save(store);
     };
 
-    $scope.sale = {};
-    $scope.saveSale = function (sale) {
-        $scope.sale = angular.copy(sale);
-        console.log($scope.sale.amount);
-        var sale = {'amount': $scope.sale.amount,'date': $scope.sale.date};
+    this.sale = {};
+    this.saveSale = function (sale) {
+        this.sale = angular.copy(sale);
+        console.log(this.sale.amount);
+        var sale = {'amount': this.sale.amount,'date': this.sale.date};
         console.log(sale);
         saleFactory.save(sale);
     };

@@ -5,4 +5,3 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
     this.sales = saleFactory.query();
     console.log(this.sales);
 });
-

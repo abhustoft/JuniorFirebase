@@ -2,10 +2,11 @@
     <h1>More sales</h1>
 
     <p> Store:</p>
+
     <ng-form name="storeForm" >
         Name: <input type="text"  ng-model="store.name">
         Manager<input type="text"  ng-model="store.manager">
-        <button ng-click="saveStore(store)" type="submit">Save</button>
+        <button ng-click="AdminCtrl.saveStore(store)" type="submit">Save</button>
     </ng-form>
 
     <p> Sale:</p>
@@ -13,7 +14,7 @@
     <ng-form name="saleForm" >
         Amount: <input type="text"  ng-model="sale.amount">
         Date<input type="date"  ng-model="sale.date">
-        <button ng-click="saveSale(sale)" type="submit">Save</button>
+        <button ng-click="AdminCtrl.saveSale(sale)" type="submit">Save</button>
     </ng-form>
 
 </div>
