@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var saleSchema = new Schema({
-    store:   { type: Number, ref: 'Store' },
+    _store:   { type: String, ref: 'Store' },
     date: Date,
     amount: Number
 });

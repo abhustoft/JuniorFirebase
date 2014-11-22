@@ -1,6 +1,8 @@
 
 var Store = require('./models/store');
 var Sale  = require('./models/sale');
+var mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID
 
 module.exports = function(app, express) {
 
@@ -52,8 +54,6 @@ module.exports = function(app, express) {
             Store.find(function(err, stores) {
                 if (err)
                     console.log('Get stores error: ' + err);
-
-                console.log('Got stores: ' + stores);
             });
 
             Store.find(function(err, stores) {
@@ -71,19 +71,31 @@ module.exports = function(app, express) {
         // create a sale (accessed at POST http://localhost:8080/api/sales)
         .post(function(req, res) {
 
-            var sale = new Sale();
-            sale.amount = req.body.amount;
-            sale.date = req.body.date;
-            sale.store = req.body.store;
+            var query  = Store.where({ name: req.body.store });
+            query.findOne(function (err, store) {
 
-            // save the sale and check for errors
-            sale.save(function(err) {
                 if (err) {
-                    res.send(err);
+                    console.log('an error');
+                    return;
                 }
-                res.json({ message: 'sale created!' });
-            });
 
+                if (store) {
+
+                    var sale = new Sale({amount: req.body.amount, _store: store.name, date: req.body.date});;
+
+                    sale.save(function (err) {
+                        if (err) {
+                            console.log('error');
+                            res.send(err);
+                        }
+                        console.log('success');
+                        res.json({message: 'sale created!'});
+                        console.log('sale created!');
+                    });
+                } else {
+                    console.log('Did not find store: ' + req.body.store);
+                }
+            });
         })
 
         // get all the sales (accessed at GET http://localhost:8080/api/sales)
@@ -92,8 +104,6 @@ module.exports = function(app, express) {
             Sale.find(function(err, sales) {
                 if (err)
                     console.log('Get sales error: ' + err);
-
-                console.log('Got sales: ' + sales);
             });
 
             Sale.find(function(err, sales) {

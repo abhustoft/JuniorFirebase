@@ -1,19 +1,18 @@
 <div class="jumbotron text-center">
     <h1>More sales</h1>
 
-    <p> Store:</p>
-
     <ng-form name="storeForm" >
+        <span>Create store:</span>
         Name: <input type="text"  ng-model="store.name">
-        Manager<input type="text"  ng-model="store.manager">
+        Manager<input type="text" ng-model="store.manager">
         <button ng-click="AdminCtrl.saveStore(store)" type="submit">Save</button>
     </ng-form>
 
-    <p> Sale:</p>
-
     <ng-form name="saleForm" >
-        Amount: <input type="text"  ng-model="sale.amount">
-        Date<input type="date"  ng-model="sale.date">
+        <p>Create sale:</p>
+        Amount: <input type="text" ng-model="sale.amount">
+        Date:   <input type="date" ng-model="sale.date">
+        Store:  <input type="text" ng-model="sale.store">
         <button ng-click="AdminCtrl.saveSale(sale)" type="submit">Save</button>
     </ng-form>
 
