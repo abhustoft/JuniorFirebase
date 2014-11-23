@@ -75,25 +75,26 @@ module.exports = function(app, express) {
             query.findOne(function (err, store) {
 
                 if (err) {
-                    console.log('an error');
+                    console.log('Could not findOne store, ' + req.body.store + ' from DB');
                     return;
                 }
 
                 if (store) {
 
-                    var sale = new Sale({amount: req.body.amount, _store: store.name, date: req.body.date});;
+                    var sale = new Sale({amount: req.body.amount,
+                                         _store: store.name,
+                                         date: req.body.date});;
 
                     sale.save(function (err) {
                         if (err) {
-                            console.log('error');
+                            console.log('Could save sale, ' + sale + ' to DB');
                             res.send(err);
                         }
-                        console.log('success');
                         res.json({message: 'sale created!'});
                         console.log('sale created!');
                     });
                 } else {
-                    console.log('Did not find store: ' + req.body.store);
+                    console.log('Did not findOne store: ' + req.body.store);
                 }
             });
         })
