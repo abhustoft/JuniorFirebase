@@ -10,7 +10,7 @@
 <input type="search" ng-model="SaleCtrl.storeChoice" placeholder="filter sales..." />
 <ul class="example-animate-container">
     <li class="animate-repeat" ng-repeat="sale in SaleCtrl.sales | filter:SaleCtrl.storeChoice as results">
-        [{{$index + 1}}] {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
+        {{$index + 1}}) {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
     </li>
     <p class="animate-repeat" ng-if="results.length == 0">
         <strong>No results found...</strong>
@@ -22,12 +22,14 @@
     <p>{{SaleCtrl.storeChoice}}</p>
     <button ng-click="SaleCtrl.getStoreSales()" type="submit">Get Store sales</button>
     <li class="animate-repeat" ng-repeat="sale in SaleCtrl.storeSales">
-        [{{$index + 1}}] {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
+        {{$index + 1}}) {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
     </li>
     <p class="animate-repeat" ng-if="results.length == 0">
         <strong>No results found...</strong>
     </p>
 </ul>
+
+<button ng-click="SaleCtrl.deleteStoreSales()" type="submit">Delete Store sales</button>
 
 
 

@@ -9,4 +9,9 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
         var store = {'_store': this.storeChoice};
         this.storeSales = storeSalesFactory.query(store);
     };
+
+    this.deleteStoreSales = function () {
+        var store = {'_store': this.storeChoice};
+        this.storeSales = storeSalesFactory.remove(store);
+    };
 });

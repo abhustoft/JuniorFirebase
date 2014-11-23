@@ -119,14 +119,11 @@ module.exports = function(app, express) {
 // ----------------------------------------------------
     router.route('/sales/store')
 
-        // get the sale with that id (accessed at GET http://localhost:8080/api/sales/store/:store_id)
+        // get the sale with that id (accessed at GET http://localhost:8080/api/sales/store?_store=aStore)
         .get(function(req, res) {
-            console.log('request: ');
-            var query = req.query;
-            console.log(query);
 
-            //Sale.find({_store: req.params.store_id}, function(err, sales) {
-            Sale.find(query, function(err, sales) {
+            //Sale.find({_store: 'aStore}, function(err, sales) {
+            Sale.find(req.query, function(err, sales) {
                 if (err)
                     res.send(err);
                 res.json(sales);
@@ -135,9 +132,9 @@ module.exports = function(app, express) {
 
         // delete the sales with this id (accessed at DELETE http://localhost:8080/api/sales/store/:store_id)
         .delete(function(req, res) {
-            Sale.remove({
-                _id: req.params.store_id
-            }, function(err, sale) {
+            console.log('delete: ');
+            console.log(req.query);
+            Sale.remove(req.query, function(err, sale) {
                 if (err)
                     res.send(err);
 
