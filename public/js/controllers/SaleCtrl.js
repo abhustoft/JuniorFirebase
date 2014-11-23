@@ -3,10 +3,10 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
     this.tagline = 'The sales!';
     this.sales = saleFactory.query();
+    this.storeChoice = '';
 
-    this.getStoreSales = function (store) {
-        this.store = angular.copy(store);
-        var store = {'_store': this.store};
+    this.getStoreSales = function () {
+        var store = {'_store': this.storeChoice};
         this.storeSales = storeSalesFactory.query(store);
     };
 });
