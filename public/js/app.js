@@ -17,3 +17,7 @@ app.factory('storeFactory', function($resource) {
 app.factory('saleFactory', function($resource) {
     return $resource('/api/sales/:id');
 });
+
+app.factory('storeSalesFactory', function($resource) {
+    return $resource('/api/sales/store/:id');
+});

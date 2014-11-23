@@ -1,6 +1,6 @@
 <!-- public/views/nerd.html -->
 
-<div class="jumbotron text-center">
+<div>
     <h1>Sales</h1>
 
     <p>{{ SaleCtrl.tagline }}</p>
@@ -16,6 +16,19 @@
         <strong>No results found...</strong>
     </p>
 </ul>
+
+
+<ul class="example-animate-container">
+    <p>{{show}}</p>
+    <button ng-click="SaleCtrl.getStoreSales('Storo')" type="submit">Get Store sales</button>
+    <li class="animate-repeat" ng-repeat="sale in SaleCtrl.storeSales">
+        [{{$index + 1}}] {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
+    </li>
+    <p class="animate-repeat" ng-if="results.length == 0">
+        <strong>No results found...</strong>
+    </p>
+</ul>
+
 
 
 

@@ -115,45 +115,28 @@ module.exports = function(app, express) {
             });
         });
 
-    // on routes that end in /sales/:sale_id
+    // on routes that end in /sales/store
 // ----------------------------------------------------
-    router.route('/sales/:stale_id')
+    router.route('/sales/store')
 
-        // get the sale with that id (accessed at GET http://localhost:8080/api/sales/:sale_id)
+        // get the sale with that id (accessed at GET http://localhost:8080/api/sales/store/:store_id)
         .get(function(req, res) {
-            Sale.findById(req.params.sale_id, function(err, sale) {
+            console.log('request: ');
+            var query = req.query;
+            console.log(query);
+
+            //Sale.find({_store: req.params.store_id}, function(err, sales) {
+            Sale.find(query, function(err, sales) {
                 if (err)
                     res.send(err);
-                res.json(sale);
+                res.json(sales);
             });
         })
 
-        // update the sale with this id (accessed at PUT http://localhost:8080/api/sales/:sale_id)
-        .put(function(req, res) {
-
-            // use our sale model to find the sale we want
-            Sale.findById(req.params.sale_id, function(err, sale) {
-
-                if (err)
-                    res.send(err);
-
-                sale.name = req.body.name; 	// update the sales info
-
-                // save the sale
-                sale.save(function(err) {
-                    if (err)
-                        res.send(err);
-
-                    res.json({ message: 'Nerd updated!' });
-                });
-
-            });
-        })
-
-        // delete the sale with this id (accessed at DELETE http://localhost:8080/api/sales/:nerd_id)
+        // delete the sales with this id (accessed at DELETE http://localhost:8080/api/sales/store/:store_id)
         .delete(function(req, res) {
             Sale.remove({
-                _id: req.params.sale_id
+                _id: req.params.store_id
             }, function(err, sale) {
                 if (err)
                     res.send(err);
@@ -162,6 +145,53 @@ module.exports = function(app, express) {
             });
         });
 
+// on routes that end in /sales/:sale_id
+// ----------------------------------------------------
+router.route('/sales/:stale_id')
 
-    app.use('/api', router);
+    // get the sale with that id (accessed at GET http://localhost:8080/api/sales/:sale_id)
+    .get(function(req, res) {
+        Sale.findById(req.params.sale_id, function(err, sale) {
+            if (err)
+                res.send(err);
+            res.json(sale);
+        });
+    })
+
+    // update the sale with this id (accessed at PUT http://localhost:8080/api/sales/:sale_id)
+    .put(function(req, res) {
+
+        // use our sale model to find the sale we want
+        Sale.findById(req.params.sale_id, function(err, sale) {
+
+            if (err)
+                res.send(err);
+
+            sale.name = req.body.name; 	// update the sales info
+
+            // save the sale
+            sale.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Nerd updated!' });
+            });
+
+        });
+    })
+
+    // delete the sale with this id (accessed at DELETE http://localhost:8080/api/sales/:nerd_id)
+    .delete(function(req, res) {
+        Sale.remove({
+            _id: req.params.sale_id
+        }, function(err, sale) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    });
+
+
+app.use('/api', router);
 };
