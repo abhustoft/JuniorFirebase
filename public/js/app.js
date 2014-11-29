@@ -8,7 +8,8 @@ var app = angular.module('sampleApp', ['ngRoute',
     'MainCtrl',
     'StoreCtrl',
     'SaleCtrl',
-    'AdminCtrl']);
+    'AdminCtrl',
+    'firebase']);
 
 app.factory('storeFactory', function($resource) {
     return $resource('/api/stores/:id');
