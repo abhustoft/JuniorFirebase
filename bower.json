@@ -1,13 +1,18 @@
 {
-    "name": "starter-node-angular",
-    "version": "1.0.0",
-    "dependencies": {
-        "bootstrap": "latest",
-        "font-awesome": "latest",
-        "animate.css": "latest",
-        "angular": "latest",
-        "angular-route": "latest",
-        "angular-resource": "latest"
-    }
+  "name": "starter-node-angular",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "latest",
+    "font-awesome": "latest",
+    "animate.css": "latest",
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-resource": "latest",
+    "firebase": "~2.0.5",
+    "firebase-simple-login": "~1.6.4",
+    "angularfire": "~0.9.0"
+  },
+  "resolutions": {
+    "firebase": "~2.0.5"
+  }
 }
-
