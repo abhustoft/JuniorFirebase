@@ -1,7 +1,7 @@
 /**
  * Created by abhustoft on 08.11.14.
  */
-/* public/js/services/NerdService.js
+/* public/js/services/StoreService.js
 var nerdService = angular.module('nerdService', [ngResource]);
 
 nerdService.factory('Nerd', ['$resource',
