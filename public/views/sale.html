@@ -29,6 +29,8 @@
     </p>
 </ul>
 
+<li ng-repeat="item in SaleCtrl.janSales">{{ item|json }}</li>
+
 <button ng-click="SaleCtrl.deleteStoreSales()" type="submit">Delete Store sales</button>
 
 
