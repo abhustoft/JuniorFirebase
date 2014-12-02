@@ -9,8 +9,8 @@
 <span>I have {{sales.length}} sales. They are:</span>
 <input type="search" ng-model="SaleCtrl.storeChoice" placeholder="filter sales..." />
 <ul class="example-animate-container">
-    <li class="animate-repeat" ng-repeat="sale in SaleCtrl | filter:SaleCtrl.storeChoice as results">
-        {{$index + 1}}) {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
+    <li class="animate-repeat" ng-repeat="sale in SaleCtrl.sales ">
+        {{$index + 1}}) {{sale.sale}} dato: {{sale.date}} {{sale.store}}
     </li>
     <p class="animate-repeat" ng-if="results.length == 0">
         <strong>No results found...</strong>
@@ -22,7 +22,7 @@
     <p>{{SaleCtrl.storeChoice}}</p>
     <button ng-click="SaleCtrl.getStoreSales()" type="submit">Get Store sales</button>
     <li class="animate-repeat" ng-repeat="sale in SaleCtrl.storeSales">
-        {{$index + 1}}) {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale._store}}
+        {{$index + 1}}) {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale.store}}
     </li>
     <p class="animate-repeat" ng-if="results.length == 0">
         <strong>No results found...</strong>

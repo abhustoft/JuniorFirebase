@@ -9,23 +9,20 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
     var initDB = function (store, year) {
 
-        var yearRef = new Firebase('https://junioropen.firebaseio.com/' + store + '/' + year + '/');
-        var days = {},
-            months = {};
+        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
+        var days = {};
 
-        for (var i = 0; i < 32; i++) {
-            days[i] = {"sale": 0, "temp": 23};
-        }
 
-        for (var i = 0; i < 13; i++) {
-            months[i] = days;
-        }
-        yearRef.set(months);
-
+        for (var m = 1; m < 13; m++) {
+            for (var i = 1; i < 32; i++) {
+                days = {sale: 0, temp: 23, date: i + '-' + m + '-' + year, store: store};
+                dbRef.push(days);
+            }
+       }
 
 
         /******   *****/
-        var janRef = yearRef.child(1);
+        var janRef = dbRef.child(1);
         var sync = $firebase(janRef);
         list = sync.$asArray();
 
@@ -50,11 +47,23 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
     this.janSales = list;
 
-    //this.sales =....
+    this.sales = {};
+    var ff = [];
+    var dummy = function (){
+        alert('cancelled');
+    };
 
     this.getStoreSales = function () {
         var store = {'_store': this.storeChoice};
-        this.storeSales = storeSalesFactory.query(store);
+        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
+        var count = 0;
+        dbRef.orderByChild("date").on("child_added", function(snapshot) {
+            //console.log(snapshot.key() + " was " + snapshot.val().temp + " meters tall");
+            console.log(count + ' ' + snapshot.exportVal().date + ' ' +  snapshot.exportVal().store);
+            this.sales[count++] = snapshot.exportVal();
+        },
+        dummy,
+        this);
     };
 
     this.deleteStoreSales = function () {
