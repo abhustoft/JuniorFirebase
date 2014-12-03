@@ -21,19 +21,16 @@
 <ul class="example-animate-container">
     <p>{{SaleCtrl.storeChoice}}</p>
     <button ng-click="SaleCtrl.getStoreSales()" type="submit">Get Store sales</button>
-    <li class="animate-repeat" ng-repeat="sale in SaleCtrl.storeSales">
-        {{$index + 1}}) {{sale.amount}} dato: {{sale.date | date: 'dd-MM-yyyy' }} {{sale.store}}
+    <li class="animate-repeat" ng-repeat="sale in SaleCtrl.sales">
+        {{$index + 1}}) Sum: {{sale.sum}} temp: {{sale.temp}} dato: {{sale.date | date: 'dd-MM-yyyy' }} store: {{sale.store}}
     </li>
     <p class="animate-repeat" ng-if="results.length == 0">
         <strong>No results found...</strong>
     </p>
 </ul>
-<p>Now, the list</p>
-<ul>
-    <li ng-repeat="item in SaleCtrl.janSales">Sale: {{ item.sale|json }} Temp:{{ item.temp|json }}</li>
-</ul>
 
-<button ng-click="SaleCtrl.deleteStoreSales()" type="submit">Delete Store sales</button>
+<button ng-click="SaleCtrl.findStoreSales()" type="submit">Find Store sales</button>
+<button ng-click="SaleCtrl.initFB()" type="submit">Initialize database</button>
 
 
 
