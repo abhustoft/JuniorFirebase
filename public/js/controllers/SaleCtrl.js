@@ -13,13 +13,18 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
     var initDB = function (store, year) {
 
-        var dbRef = new Firebase('https://junioropen.firebaseio.com/sales');
+        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
         var days = {};
+        var dateStr = ' ';
+        var date = 0;
 
         for (var m = 1; m < 13; m++) {
             for (var i = 1; i < 32; i++) {
-                days = {sale:{sum: 0, temp: 23, date: year + padDigits(m,2) + padDigits(i,2), store: store}};
-                dbRef.push(days);
+                dateStr = year + padDigits(m,2) + padDigits(i,2);
+                dbRef =  new Firebase('https://junioropen.firebaseio.com/' + dateStr);
+                date = parseInt(dateStr,10);
+                days = JSON.parse('{"sum": ' + i + ', "temp": 23,"store": "' + store + '"}');
+                dbRef.set(days);
             }
        }
 
@@ -80,6 +85,16 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
         dummy,
         this);
     };
+
+    this.testSearch = function () {
+        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
+        var item;
+        dbRef.orderByChild("sum").startAt(23).endAt(25).on("child_added", function(snapshot) {
+            item= snapshot.exportVal();
+            console.log('The key: ' + snapshot.key() + ' ' + item.sum);
+
+        });
+    }
 
     this.findStoreSales = function () {
         var count = 0;
