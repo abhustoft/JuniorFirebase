@@ -1,10 +1,12 @@
 
-angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory, $firebase) {
+angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory, $firebase, $filter) {
 
     this.tagline = 'The sales!';
     this.storeChoice = '';
+    this.fromDate;
+    this.toDate;
     this.sales = {};
-    var storeList = [];
+    this.storeList = [];
     var list;
 
     var padDigits = function (number, digits) {
@@ -47,57 +49,45 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
     this.getStoreSales = function () {
         var store = this.storeChoice;
-        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
-        var count = 0;
         var storeCount = 0;
 
-        dbRef.child("sales").orderByChild("store").on("child_added", function(snapshot) {
-            //console.log('The key: ' + snapshot.key() + ': ' + snapshot.exportVal().sale.store);
+        var from = moment(this.fromDate).format("YYYYMMDD");
+        var to = moment(this.toDate).format("YYYYMMDD");
 
-            if (snapshot.exportVal().sale.store === store){
-                storeList[storeCount++] = snapshot.val();
-            }
-        });
+        var intfrom = parseInt(from,10);
+        var intto = parseInt(to,10)
 
-        dbRef.child("sales").limitToFirst(5).on("child_added", function(snapshot) {
-            /*console.log(count + ' ' +
-                snapshot.key() + ' ' +
-            snapshot.exportVal().sale.sum + ' ' +
-            snapshot.exportVal().sale.temp + ' ' +
-            snapshot.exportVal().sale.date + ' ' +
-            snapshot.exportVal().sale.store);
+        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
+        dbRef.orderByChild("date").startAt(intfrom).endAt(intto).on("child_added", function(snapshot) {
+            /*console.log('The key: ' + snapshot.key() + ' ' +
+            snapshot.exportVal().sum + ' ' +
+            snapshot.exportVal().date + ' ' +
+            snapshot.exportVal().store);
             */
-
-            this.sales[count++] = snapshot.exportVal().sale;
+            if (snapshot.exportVal().store === store){
+                this.storeList[storeCount++] = snapshot.val();
+            }
         },
         dummy,
         this);
-    };
-
-    this.testSearch = function () {
-        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
-        dbRef.orderByChild("date").startAt(20131222).endAt(20140103).on("child_added", function(snapshot) {
-            console.log('The key: ' + snapshot.key() + ' ' + snapshot.exportVal().sum + ' ' + snapshot.exportVal().date);
-        });
     }
 
 
-    this.findStoreSales = function () {
+    this.listStoreSales = function () {
         var count = 0;
         var salePeriod = [];
 
-        storeList.forEach(function(item) {
-            if (parseInt(item.sale.date,10) > 20130506 && parseInt(item.sale.date,10) < 20130512) {
-                salePeriod[count++] = item.sale;
-                console.log('Sale Period: ' + item.sale.date);
-            }
+        this.storeList.forEach(function(item) {
+            console.log('Sale: ' + item.sum + ' Date:' + item.date + ' ' + item.store);
         });
 
         var store = {'_store': this.storeChoice};
     };
     this.initFB = function () {
-        initDB('Storo','2014');
+        initDB('Storo','2013');
         initDB('Sandvika','2013');
+        initDB('Storo','2014');
+        initDB('Sandvika','2014');
     };
 
 });

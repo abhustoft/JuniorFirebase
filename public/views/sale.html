@@ -7,7 +7,10 @@
 </div>
 
 <span>I have {{sales.length}} sales. They are:</span>
-<input type="search" ng-model="SaleCtrl.storeChoice" placeholder="filter sales..." />
+<input type="search" ng-model="SaleCtrl.storeChoice" placeholder="Name of a store" />
+<input type="date"   ng-model="SaleCtrl.fromDate"    placeholder="YYYYmmdd" />
+<input type="date"   ng-model="SaleCtrl.toDate"      placeholder="YYYYmmdd" />
+
 <ul class="example-animate-container">
     <li class="animate-repeat" ng-repeat="sale in SaleCtrl.sales ">
         {{$index + 1}}) {{sale.sale}} dato: {{sale.date}} {{sale.store}}
@@ -29,8 +32,7 @@
     </p>
 </ul>
 
-<button ng-click="SaleCtrl.findStoreSales()" type="submit">Find Store sales</button>
-<button ng-click="SaleCtrl.testSearch()" type="submit">testSearch</button>
+<button ng-click="SaleCtrl.listStoreSales()" type="submit">List queried Store sales</button>
 <button ng-click="SaleCtrl.initFB()" type="submit">Initialize database</button>
 
 
