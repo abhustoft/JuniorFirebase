@@ -1,5 +1,5 @@
 
-angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory,  $firebase) {
+angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory, $firebase) {
 
     this.tagline = 'The sales!';
     this.storeChoice = '';
@@ -78,14 +78,13 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
         var dbRef = new Firebase('https://junioropen.firebaseio.com/');
         dbRef.orderByChild("date").startAt(20131222).endAt(20140103).on("child_added", function(snapshot) {
             console.log('The key: ' + snapshot.key() + ' ' + snapshot.exportVal().sum + ' ' + snapshot.exportVal().date);
-
         });
     }
+
 
     this.findStoreSales = function () {
         var count = 0;
         var salePeriod = [];
-        FirebaseService.method1();
 
         storeList.forEach(function(item) {
             if (parseInt(item.sale.date,10) > 20130506 && parseInt(item.sale.date,10) < 20130512) {

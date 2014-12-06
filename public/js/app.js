@@ -23,12 +23,3 @@ app.factory('storeSalesFactory', function($resource) {
     return $resource('/api/sales/store/:id');
 });
 
-app.service('FirebaseService', function() {
-    this.method1 = function() {
-        //..
-    }
-
-    this.method2 = function() {
-        //..
-    }
-});
