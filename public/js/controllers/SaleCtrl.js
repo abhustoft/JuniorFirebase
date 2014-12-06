@@ -1,5 +1,5 @@
 
-angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory, $firebase) {
+angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory,  $firebase) {
 
     this.tagline = 'The sales!';
     this.storeChoice = '';
@@ -21,10 +21,10 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
         for (var m = 1; m < 13; m++) {
             for (var i = 1; i < 32; i++) {
                 dateStr = year + padDigits(m,2) + padDigits(i,2);
-                dbRef =  new Firebase('https://junioropen.firebaseio.com/' + dateStr);
+                //dbRef =  new Firebase('https://junioropen.firebaseio.com/' + dateStr);
                 date = parseInt(dateStr,10);
-                days = JSON.parse('{"sum": ' + i + ', "temp": 23,"store": "' + store + '"}');
-                dbRef.set(days);
+                days = JSON.parse('{"sum": ' + i + ', "temp": 23,"store": "' + store + '","date":' + date + '}');
+                dbRef.push(days);
             }
        }
 
@@ -39,19 +39,7 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
                 console.log('Day: ' + index + ' ' + elem.sale + ' ' + elem.temp);
             })
         });
-    }
-
-    /*initDB('Storo','2014');
-    initDB('Storo','2013');
-    initDB('Storo','2012');
-    initDB('Storo','2011');
-    initDB('Storo','2010');
-
-    initDB('Sandvika','2014');
-    initDB('Sandvika','2013');
-    initDB('Sandvika','2012');
-    initDB('Sandvika','2011');
-    initDB('Sandvika','2010');*/
+    };
 
     var dummy = function (){
         alert('cancelled');
@@ -88,10 +76,8 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
     this.testSearch = function () {
         var dbRef = new Firebase('https://junioropen.firebaseio.com/');
-        var item;
-        dbRef.orderByChild("sum").startAt(23).endAt(25).on("child_added", function(snapshot) {
-            item= snapshot.exportVal();
-            console.log('The key: ' + snapshot.key() + ' ' + item.sum);
+        dbRef.orderByChild("date").startAt(20131222).endAt(20140103).on("child_added", function(snapshot) {
+            console.log('The key: ' + snapshot.key() + ' ' + snapshot.exportVal().sum + ' ' + snapshot.exportVal().date);
 
         });
     }
@@ -99,6 +85,7 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
     this.findStoreSales = function () {
         var count = 0;
         var salePeriod = [];
+        FirebaseService.method1();
 
         storeList.forEach(function(item) {
             if (parseInt(item.sale.date,10) > 20130506 && parseInt(item.sale.date,10) < 20130512) {
