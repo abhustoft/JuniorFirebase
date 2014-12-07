@@ -32,7 +32,10 @@
     </p>
 </ul>
 
+<button ng-click="testCtrl.checkPoint()" type="submit">Check</button>
 <button ng-click="testCtrl.initFB()" type="submit">Initialize database</button>
+
+<li ng-repeat="sale in testCtrl.list">{{ sale.date }}   Sale : {{sale.sum}}</li>
 
 
 

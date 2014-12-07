@@ -50,7 +50,8 @@ angular.module('sampleApp').service('salesService', function () {
 
         var dbRef = new Firebase('https://junioropen.firebaseio.com/' + store + 'Sales');
 
-        dbRef.orderByChild("date").startAt(intfrom).endAt(intto).on("child_added", function(snapshot) {
+        var selectionRef = dbRef.orderByChild("date").startAt(intfrom).endAt(intto);
+        selectionRef.on("child_added", function(snapshot) {
                 console.log('The key: ' + snapshot.key() + ' ' +
                 snapshot.exportVal().sum + ' ' +
                 snapshot.exportVal().date + ' ' +
@@ -58,5 +59,6 @@ angular.module('sampleApp').service('salesService', function () {
             },
             dummy,
             this);
+        return selectionRef;
     }
 });
