@@ -1,5 +1,5 @@
 
-angular.module('testCtrl', []).controller('testController', function(saleFactory, storeSalesFactory, $firebase, $filter) {
+angular.module('testCtrl', []).controller('testController', function(saleFactory, salesService, storeSalesFactory, $firebase, $filter) {
 
     this.tagline = 'The sales!';
     this.storeChoice = '';
@@ -61,6 +61,8 @@ angular.module('testCtrl', []).controller('testController', function(saleFactory
     this.listStoreSales = function () {
         var count = 0;
         var salePeriod = [];
+
+        salesService.doit();
 
         this.storeList.forEach(function(item) {
             console.log('Sale: ' + item.sum + ' Date:' + item.date + ' ' + item.store);
