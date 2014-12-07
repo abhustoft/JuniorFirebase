@@ -1,11 +1,10 @@
 
-angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory, storeSalesFactory, $firebase, $filter) {
+angular.module('testCtrl', []).controller('testController', function(saleFactory, storeSalesFactory, $firebase, $filter) {
 
     this.tagline = 'The sales!';
     this.storeChoice = '';
-    this.fromDate;
-    this.toDate;
-    this.sales = {};
+    this.fromDate = '';
+    this.toDate = '';
     this.storeList = [];
     var list;
 
@@ -23,24 +22,12 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
         for (var m = 1; m < 13; m++) {
             for (var i = 1; i < 32; i++) {
                 dateStr = year + padDigits(m,2) + padDigits(i,2);
-                //dbRef =  new Firebase('https://junioropen.firebaseio.com/' + dateStr);
+                dbRef =  new Firebase('https://junioropen.firebaseio.com/' + store + 'Sales');
                 date = parseInt(dateStr,10);
                 days = JSON.parse('{"sum": ' + i + ', "temp": 23,"store": "' + store + '","date":' + date + '}');
                 dbRef.push(days);
             }
        }
-
-
-        /******   *****/
-        var janRef = dbRef.child(1);
-        var sync = $firebase(janRef);
-        list = sync.$asArray();
-
-        list.$loaded().then(function () {
-            list.forEach(function (elem, index) {
-                console.log('Day: ' + index + ' ' + elem.sale + ' ' + elem.temp);
-            })
-        });
     };
 
     var dummy = function (){
@@ -57,16 +44,14 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
         var intfrom = parseInt(from,10);
         var intto = parseInt(to,10)
 
-        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
+        var dbRef = new Firebase('https://junioropen.firebaseio.com/' + store + 'Sales');
         dbRef.orderByChild("date").startAt(intfrom).endAt(intto).on("child_added", function(snapshot) {
-            /*console.log('The key: ' + snapshot.key() + ' ' +
+            console.log('The key: ' + snapshot.key() + ' ' +
             snapshot.exportVal().sum + ' ' +
             snapshot.exportVal().date + ' ' +
             snapshot.exportVal().store);
-            */
-            if (snapshot.exportVal().store === store){
-                this.storeList[storeCount++] = snapshot.val();
-            }
+
+            this.storeList[storeCount++] = snapshot.val();
         },
         dummy,
         this);
@@ -83,6 +68,8 @@ angular.module('SaleCtrl', []).controller('SaleController', function(saleFactory
 
         var store = {'_store': this.storeChoice};
     };
+
+
     this.initFB = function () {
         initDB('Storo','2013');
         initDB('Sandvika','2013');
