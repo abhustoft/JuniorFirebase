@@ -7,7 +7,7 @@ var app = angular.module('sampleApp', [
     'ngResource',
     'appRoutes',
     'MainCtrl',
-    'StoreCtrl',
+    'storeCtrl',
     'testCtrl',
     'AdminCtrl',
     'firebase']);

@@ -3,13 +3,13 @@
 <div class="jumbotron text-center">
     <h1>Stores</h1>
 
-    <p>{{ StoreCtrl.tagline }}</p>
+    <p>{{ storeCtrl.tagline }}</p>
 </div>
 
-<span>I have {{StoreCtrl.stores.length}} stores. They are:</span>
+<span>I have {{storeCtrl.stores.length}} stores. They are:</span>
 <input type="search" ng-model="q" placeholder="filter stores..." />
 <ul class="example-animate-container">
-    <li class="animate-repeat" ng-repeat="store in StoreCtrl.stores | filter:q as results">
+    <li class="animate-repeat" ng-repeat="store in storeCtrl.stores | filter:q as results">
         [{{$index + 1}}] {{store.name}} Butikksjef {{store.manager}} ID: {{store._id}}
     </li>
     <p class="animate-repeat" ng-if="results.length == 0">

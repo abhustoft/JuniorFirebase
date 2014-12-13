@@ -26,7 +26,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 
         .when('/sales', {
             templateUrl: 'views/test.html',
-            controller: 'testController',
+            controller: 'TestController',
             controllerAs: 'testCtrl'
         })
     ;
