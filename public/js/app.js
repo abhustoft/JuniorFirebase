@@ -10,6 +10,8 @@ var app = angular.module('sampleApp', [
     'storeCtrl',
     'testCtrl',
     'adminCtrl',
+    'loginCtrl',
+    'registerCtrl',
     'firebase']);
 
 app.factory('storeFactory', function($resource) {
