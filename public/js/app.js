@@ -6,10 +6,10 @@ var app = angular.module('sampleApp', [
     'ngRoute',
     'ngResource',
     'appRoutes',
-    'MainCtrl',
+    'mainCtrl',
     'storeCtrl',
     'testCtrl',
-    'AdminCtrl',
+    'adminCtrl',
     'firebase']);
 
 app.factory('storeFactory', function($resource) {
