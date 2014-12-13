@@ -1,0 +1,21 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "SandvikaSales": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": "date"
+    },
+    "StoroSales": {
+      ".read": "auth.provider === 'password'",
+      ".write": false,
+      ".indexOn": "date"
+    },
+    "users": {
+      "$user_id": {
+        ".write": "$user_id === auth.uid"
+      }
+    }
+  }
+}

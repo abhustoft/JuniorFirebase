@@ -26,4 +26,18 @@ app.factory('storeSalesFactory', function($resource) {
     return $resource('/api/sales/store/:id');
 });
 
+app.run(function () {
+    console.log('running');
+    var ref = new Firebase('https://junioropen.firebaseio.com');
+
+    ref.onAuth(function(authData ) {
+        if (authData) {
+            console.log("Authenticated with uid:", authData.uid + ' email: ' + authData.password.email);
+            //ref.unauth();
+        } else {
+            console.log("Client unauthenticated.")
+        }
+    });
+})
+
 

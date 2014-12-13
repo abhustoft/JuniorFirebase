@@ -1,10 +1,13 @@
 
 angular.module('loginCtrl', []).controller('LoginController', function(authService, $firebase) {
 
-    // Form submission for logging in
     this.login =  function (email, password) {
-
         authService.login(email, password);
+
+    }
+
+    this.logout =  function () {
+        authService.logout();
 
     }
 
