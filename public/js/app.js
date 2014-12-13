@@ -26,3 +26,4 @@ app.factory('storeSalesFactory', function($resource) {
     return $resource('/api/sales/store/:id');
 });
 
+

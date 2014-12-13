@@ -1,20 +1,10 @@
 
-angular.module('loginCtrl', []).controller('LoginController', function(saleFactory, salesService, storeSalesFactory, $firebase, $filter) {
+angular.module('loginCtrl', []).controller('LoginController', function(authService, $firebase) {
 
     // Form submission for logging in
     this.login =  function (email, password) {
 
-        var ref = new Firebase('https://junioropen.firebaseio.com/auth');
-        ref.authWithPassword({
-            email : email,
-            password : password
-        }, function(error, authData) {
-            if (error) {
-                console.log("Login Failed!", error);
-            } else {
-                console.log("Authenticated successfully with payload:", authData);
-            }
-        });
+        authService.login(email, password);
 
     }
 
