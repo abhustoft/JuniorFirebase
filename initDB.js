@@ -42,10 +42,9 @@ require('child_process')
         files = stdout.split('\n');
 
         for (var fn = 0; fn < files.length; fn++) {
-            console.log(files[fn]);
             var name = './' + files[fn];
             data = require(name);
-            //console.log(data);
+            console.log(name);
 
             for (var i = 0; i < data.length; i++) {
                 if (data[i].store === 'Storo') {
