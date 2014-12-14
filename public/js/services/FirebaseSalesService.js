@@ -1,4 +1,4 @@
-angular.module('sampleApp').service('salesService', function () {
+angular.module('sampleApp').service('salesService', function (firebaseService) {
 
     /**
      * Months and days need to be two digits in date string
@@ -10,10 +10,9 @@ angular.module('sampleApp').service('salesService', function () {
         return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
     };
 
-
     this.initDB = function (store, year) {
 
-        var dbRef = new Firebase('https://junioropen.firebaseio.com/');
+        var dbRef = firebaseService.FBref();
         var days = {};
         var dateStr = ' ';
         var date = 0;
@@ -21,7 +20,7 @@ angular.module('sampleApp').service('salesService', function () {
         for (var m = 1; m < 13; m++) {
             for (var i = 1; i < 32; i++) {
                 dateStr = year + padDigits(m,2) + padDigits(i,2);
-                dbRef =  new Firebase('https://junioropen.firebaseio.com/' + store + 'Sales');
+                dbRef =  firebaseService.FBref(store + 'Sales');
                 date = parseInt(dateStr,10);
                 days = JSON.parse('{"sum": ' + i + ', "temp": 23,"store": "' + store + '","date":' + date + '}');
                 dbRef.push(days);
@@ -29,12 +28,11 @@ angular.module('sampleApp').service('salesService', function () {
         }
     };
 
-
     /**
      * Dummy function used in Firebase so that the 'this' can be set in a query
      */
     var dummy = function (){
-        alert('cancelled');
+        alert('No access, dummy');
     };
 
     /**
@@ -45,12 +43,11 @@ angular.module('sampleApp').service('salesService', function () {
      */
     this.getStoreSales = function (store, fromDate, toDate) {
 
-        var intfrom = parseInt(moment(fromDate).format("YYYYMMDD"),10);
-        var intto = parseInt(moment(toDate).format("YYYYMMDD"),10)
+        var from = parseInt(moment(fromDate).format("YYYYMMDD"),10);
+        var to = parseInt(moment(toDate).format("YYYYMMDD"),10);
 
-        var dbRef = new Firebase('https://junioropen.firebaseio.com/' + store + 'Sales');
-
-        var selectionRef = dbRef.orderByChild("date").startAt(intfrom).endAt(intto);
+        var dbRef = firebaseService.FBref(store + 'Sales');
+        var selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
         selectionRef.on("child_added", function(snapshot) {
                 console.log('The key: ' + snapshot.key() + ' ' +
                 snapshot.exportVal().sum + ' ' +

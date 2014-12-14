@@ -1,10 +1,8 @@
 
 angular.module('adminCtrl', []).controller('AdminController', function(storeFactory,
-                                                                       saleFactory, $firebase) {
+                                                                       saleFactory,
+                                                                       $firebase) {
     this.store = {};
-    var ref = new Firebase("https://junioropen.firebaseio.com/Storo/2014/January/");
-    var sync = $firebase(ref);
-
 
     this.saveStore = function (store) {
         this.store = angular.copy(store);

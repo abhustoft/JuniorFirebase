@@ -1,5 +1,5 @@
 
-angular.module('loginCtrl', []).controller('LoginController', function(authService, $firebase) {
+angular.module('loginCtrl', []).controller('LoginController', function(authService) {
 
     this.login =  function (email, password) {
         authService.login(email, password);

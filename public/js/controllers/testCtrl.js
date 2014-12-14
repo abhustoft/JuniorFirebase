@@ -1,5 +1,9 @@
 
-angular.module('testCtrl', []).controller('TestController', function(saleFactory, salesService, storeSalesFactory, $firebase, $filter) {
+angular.module('testCtrl', []).controller('TestController', function(saleFactory,
+                                                                     salesService,
+                                                                     storeSalesFactory,
+                                                                     $firebase,
+                                                                     $filter) {
 
     this.tagline = 'The sales!';
     this.storeChoice = '';

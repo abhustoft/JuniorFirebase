@@ -1,6 +1,6 @@
-angular.module('sampleApp').service('authService', function ($firebaseAuth) {
+angular.module('sampleApp').service('authService', function (firebaseService) {
 
-    var loginRef  = new Firebase('https://junioropen.firebaseio.com');
+    var loginRef = firebaseService.FBref();
 
     /** Login in with email and password
      *
@@ -9,7 +9,6 @@ angular.module('sampleApp').service('authService', function ($firebaseAuth) {
      */
     var login =  function (email, password) {
 
-        loginRef = new Firebase('https://junioropen.firebaseio.com');
         loginRef.authWithPassword({
             email : email,
             password : password
@@ -17,21 +16,19 @@ angular.module('sampleApp').service('authService', function ($firebaseAuth) {
             if (error) {
                 console.log("Login Failed!", error);
             } else {
-                //console.log("Authenticated successfully with payload:", authData);
-                //console.log("User " + authData.uid + " is logged in with " + authData.provider);
                 loginRef.child("users").child(authData.uid).set(authData);
             }
         });
-    }
+    };
 
     /** Login in with email and password
      *
      * @param {string} email
      * @param {string} password
      */
-    this.login = function (email,password) {
+    this.login = function (email, password) {
         login(email, password);
-    }
+    };
 
     /**
      * Register a new user account
@@ -52,13 +49,14 @@ angular.module('sampleApp').service('authService', function ($firebaseAuth) {
             }
         });
 
-    }
+    };
 
-
-
+    /**
+     * Log out user
+     */
     this.logout =  function () {
         loginRef.unauth();
     }
-})
+});
 
   
