@@ -12,7 +12,8 @@ var app = angular.module('sampleApp', [
     'adminCtrl',
     'loginCtrl',
     'registerCtrl',
-    'firebase']);
+    'firebase',
+    'n3-line-chart']);
 
 app.factory('storeFactory', function($resource) {
     return $resource('/api/stores/:id');
