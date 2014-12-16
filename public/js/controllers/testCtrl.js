@@ -37,12 +37,6 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         console.log('checking');
         sync = $firebase(dbRef.orderByChild("date").startAt(20140112).endAt(20140114));
         this.list = sync.$asArray();
-
-        this.data = [
-            {x: 20120103, value: 200000},
-            {x: 20120104, value: 300000},
-            {x: 20120105, value: 400000}
-        ];
     };
 
     /**
@@ -50,6 +44,18 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
      */
     var dummy = function (){
         alert('testCtrl: No access, dummy');
+    };
+
+    /**
+     * Converts a number in format YYYYMMDD to a Date object
+     * @param {integer} time
+     * @return {Date}
+     */
+    var toDateFormat = function (time) {
+        var str = time.toString();
+        var mnt = moment(str, 'YYYYMMDD');
+        var date = mnt.toDate();
+        return date;
     };
 
     /**
@@ -62,7 +68,11 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
 
         var from = parseInt(moment(this.fromDate).format("YYYYMMDD"),10);
         var to = parseInt(moment(this.toDate).format("YYYYMMDD"),10);
-        var index = 0;
+
+        //this.data = [];
+        while(this.data.length > 0) {
+            this.data.pop();
+        }
 
         var dbRef = firebaseService.FBref(this.storeChoice + 'Sales');
         var selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
@@ -72,36 +82,41 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
                 snapshot.exportVal().date + ' ' +
                 snapshot.exportVal().store);
 
-                this.data[index].x = snapshot.exportVal().date;
-                this.data[index++].value = snapshot.exportVal().sum;
+                var str = snapshot.exportVal().date.toString();
+                var mnt = moment(str, 'YYYYMMDD');
+                var date = mnt.toDate();
+
+                if(snapshot.exportVal().sum > 0) {
+                    this.data.push({'x': date, 'value': snapshot.exportVal().sum});
+                }
             },
             dummy,
             this);
         return selectionRef;
     }
 
+    this.data = [];
 
-
-    this.data = [
-        {x: 20120103, value: 100000},
-        {x: 20120104, value: 200000},
-        {x: 20120105, value: 50000}
-    ];
-
+    this.toolTip = function (x, y, series) {
+        /*
+        var date = toDateFormat(x).format('DD.MM');
+        var value = Math.round(y).toString(10) + ',-';
+        return date + ': ' + value;
+        */
+        return 'ff';
+    };
 
     this.options = {
         axes: {
-            x: {key: 'x', labelFunction: function(value) {return value;}, type: 'linear'},
-            y: {type: 'linear'},
-            y2: {type: 'linear'}
+            x: {key: 'x', type: 'date'},
+            y: {type: 'linear', min: 0}
         },
         series: [
-            {y: 'value', color: 'steelblue', thickness: '2px', type: 'area', striped: true, label: 'Pouet'},
-            {y: 'otherValue', axis: 'y2', color: 'lightsteelblue', visible: false, drawDots: true, dotSize: 2}
+            {y: 'value', color: 'steelblue', thickness: '2px', type: 'area', striped: true}
         ],
         lineMode: 'linear',
-        tension: 0.7,
-        tooltip: {mode: 'scrubber', formatter: function(x, y, series) {return 'pouet';}},
+        tension: 0.9,
+        tooltip: {mode: 'scrubber', formatter: this.toolTip},
         drawLegend: true,
         drawDots: true,
         columnsHGap: 5
