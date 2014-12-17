@@ -52,11 +52,14 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
      * @return {Date}
      */
     var toDateFormat = function (time) {
-        var str = time.toString();
-        var mnt = moment(str, 'YYYYMMDD');
+        //var str = time.toString();
+        var mnt = moment(time, 'YYYYMMDD');
         var date = mnt.toDate();
         return date;
     };
+
+    this.data = [];
+
 
     /**
      *
@@ -74,35 +77,72 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
             this.data.pop();
         }
 
-        var dbRef = firebaseService.FBref(this.storeChoice + 'Sales');
+
+        var index = 0;
+        var currentSaledoy = 0;
+        var datapoint = 1;
+
+        var dbRef = firebaseService.FBref('Sales');
+
+        this.data.push({'x': 0, 'Storo': 0, 'Sandvika': 0, 'Drobak': 0});
+
         var selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
         selectionRef.on("child_added", function(snapshot) {
-                console.log('The key: ' + snapshot.key() + ' ' +
-                snapshot.exportVal().sum + ' ' +
-                snapshot.exportVal().date + ' ' +
-                snapshot.exportVal().store);
+            console.log('The key: ' + snapshot.key() + ' ' +
+            snapshot.exportVal().sum + ' ' +
+            snapshot.exportVal().date + ' ' +
+            snapshot.exportVal().store);
 
-                var str = snapshot.exportVal().date.toString();
-                var mnt = moment(str, 'YYYYMMDD');
-                var date = mnt.toDate();
+            var daySale = {'x': 0, 'Storo': 0, 'Sandvika': 0, 'Drobak': 0};
+            var store = snapshot.exportVal().store;
+            var sum = snapshot.exportVal().sum;
 
-                if(snapshot.exportVal().sum > 0) {
-                    this.data.push({'x': date, 'value': snapshot.exportVal().sum});
+            var str = snapshot.exportVal().date.toString();
+            var mnt = moment(str, 'YYYYMMDD');
+            var date = moment(mnt).toDate();
+
+            var thisSaledoy = moment(date).dayOfYear();
+
+            // Got a new date?
+            if (currentSaledoy != thisSaledoy) {
+                currentSaledoy = thisSaledoy;
+
+                // If previous package has 0 for all sales: dont push, reuse package
+                if (this.data[datapoint - 1].Storo === 0 &&
+                    this.data[datapoint - 1].Sandvika === 0 &&
+                    this.data[datapoint - 1].Drobak === 0) {
+                   ;
+                } else {
+                    // Push new "package" into this.data and fill in date
+                    this.data.push(daySale);
+                    datapoint = this.data.length;
                 }
-            },
-            dummy,
-            this);
+                this.data[datapoint-1].x = currentSaledoy;
+            }
+
+            if (store === 'Storo') {
+                this.data[datapoint-1].Storo = sum;
+            }
+            if (store === 'Sandvika') {
+                this.data[datapoint-1].Sandvika = sum;
+            }
+            if (store === 'Drøbak') {
+                this.data[datapoint-1].Drobak = sum;
+            }
+
+        },
+        dummy,
+        this);
         return selectionRef;
     }
 
-    this.data = [];
-
-    this.toolTip = function (x, y, series) {
-        /*
+    var toolTip = function (x, y, series) {
+    /*
+        console.log(x);
         var date = toDateFormat(x).format('DD.MM');
         var value = Math.round(y).toString(10) + ',-';
         return date + ': ' + value;
-        */
+*/
         return 'ff';
     };
 
@@ -112,11 +152,13 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
             y: {type: 'linear', min: 0}
         },
         series: [
-            {y: 'value', color: 'steelblue', thickness: '2px', type: 'area', striped: true}
+            {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true},
+            {y: 'Sandvika',color: 'green', thickness: '4px', type: 'area', striped: false},
+            {y: 'Drobak',color: 'yellow', thickness: '2px', type: 'area', striped: false}
         ],
         lineMode: 'linear',
         tension: 0.9,
-        tooltip: {mode: 'scrubber', formatter: this.toolTip},
+        tooltip: {mode: 'scrubber', formatter: toolTip},
         drawLegend: true,
         drawDots: true,
         columnsHGap: 5

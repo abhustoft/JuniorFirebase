@@ -14,6 +14,8 @@ var storo = new Firebase('https://junioropen.firebaseio.com/StoroSales');
 var sandvika = new Firebase('https://junioropen.firebaseio.com/SandvikaSales');
 var drobak = new Firebase('https://junioropen.firebaseio.com/DrobakSales');
 
+var salesRef = new Firebase('https://junioropen.firebaseio.com/Sales');
+
 /*
 for (var i = 0; i < nov14.length; i++) {
     if (nov14[i].store === 'Storo') {
@@ -47,15 +49,19 @@ require('child_process')
             console.log(name);
 
             for (var i = 0; i < data.length; i++) {
+                salesRef.push(data[i]);
+
+                /*
                 if (data[i].store === 'Storo') {
                     storo.push(data[i]);
                 }
                 if (data[i].store === 'Sandvika') {
                     sandvika.push(data[i]);
                 }
-                if (data[i].store === 'Drøbak') {
+                if (data[i].store === 'Drobak') {
                     drobak.push(data[i]);
                 }
+                */
 
             }
         }
