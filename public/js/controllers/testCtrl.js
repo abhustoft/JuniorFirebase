@@ -134,11 +134,17 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         dummy,
         this);
         return selectionRef;
-    }
+    };
+
+    var yLabels = function (y) {
+        return 'NOK ' + Math.round(y).toString(10);
+    };
+
+    var xLabels = function (x) {
+        return moment(x).format('DD.MM');
+    };
 
     var toolTip = function (x, y, series) {
-
-        console.log(x);
         var date = moment(x).format('D. MMM');
         var value = Math.round(y).toString(10) + ',-';
         return date + ': ' + value;
@@ -146,8 +152,8 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
 
     this.options = {
         axes: {
-            x: {key: 'x', type: 'date'},
-            y: {type: 'linear', min: 0, labelFunction: function(y) {return 'pouet';}}
+            x: {key: 'x', type: 'date', labelFunction: xLabels},
+            y: {type: 'linear', min: 0, labelFunction: yLabels}
         },
         series: [
             {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true},

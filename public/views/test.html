@@ -36,7 +36,9 @@
 
 <li ng-repeat="sale in testCtrl.list">{{ sale.date }}   Sale : {{sale.sum}}</li>
 
+<div class="row">
+    <div class="col-md-12">
+        <linechart data="testCtrl.data" options="testCtrl.options" mode="" width="800" height="400"></linechart>
+    </div>
 
-<linechart data="testCtrl.data" options="testCtrl.options" mode="" width="800" height="400"></linechart>
-
-
+</div>
