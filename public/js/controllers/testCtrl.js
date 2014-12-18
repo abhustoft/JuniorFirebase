@@ -5,13 +5,11 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
                                                                      $firebase,
                                                                      firebaseService,
                                                                      $filter) {
-
     this.tagline = 'The sales!';
     this.storeChoice = '';
     this.fromDate = '';
-    this.toDate = '';
+    this.toDate;
     this.storeList = [];
-    this.dbRef = {};
 
     /*
     this.getStoreSales = function () {
@@ -46,20 +44,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         alert('testCtrl: No access, dummy');
     };
 
-    /**
-     * Converts a number in format YYYYMMDD to a Date object
-     * @param {integer} time
-     * @return {Date}
-     */
-    var toDateFormat = function (time) {
-        //var str = time.toString();
-        var mnt = moment(time, 'YYYYMMDD');
-        var date = mnt.toDate();
-        return date;
-    };
-
     this.data = [];
-
 
     /**
      *
@@ -72,15 +57,30 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         var from = parseInt(moment(this.fromDate).format("YYYYMMDD"),10);
         var to = parseInt(moment(this.toDate).format("YYYYMMDD"),10);
 
-        //this.data = [];
         while(this.data.length > 0) {
             this.data.pop();
         }
 
-
-        var index = 0;
         var currentSaledoy = 0;
         var datapoint = 1;
+
+        if (this.storeChoice === "Storo") {
+            this.options = {
+                axes: {
+                    x: {key: 'x', type: 'date'},
+                    y: {type: 'linear', min: 0}
+                },
+                series: [
+                    {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true}
+                ],
+                lineMode: 'linear',
+                tension: 0.9,
+                tooltip: {mode: 'scrubber', formatter: toolTip},
+                drawLegend: true,
+                drawDots: true,
+                columnsHGap: 5
+            };
+        }
 
         var dbRef = firebaseService.FBref('Sales');
 
@@ -117,7 +117,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
                     this.data.push(daySale);
                     datapoint = this.data.length;
                 }
-                this.data[datapoint-1].x = currentSaledoy;
+                this.data[datapoint-1].x = date;
             }
 
             if (store === 'Storo') {
@@ -137,24 +137,22 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
     }
 
     var toolTip = function (x, y, series) {
-    /*
+
         console.log(x);
-        var date = toDateFormat(x).format('DD.MM');
+        var date = moment(x).format('D. MMM');
         var value = Math.round(y).toString(10) + ',-';
         return date + ': ' + value;
-*/
-        return 'ff';
     };
 
     this.options = {
         axes: {
             x: {key: 'x', type: 'date'},
-            y: {type: 'linear', min: 0}
+            y: {type: 'linear', min: 0, labelFunction: function(y) {return 'pouet';}}
         },
         series: [
             {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true},
-            {y: 'Sandvika',color: 'green', thickness: '4px', type: 'area', striped: false},
-            {y: 'Drobak',color: 'yellow', thickness: '2px', type: 'area', striped: false}
+            {y: 'Sandvika',color: 'salmon', thickness: '4px', type: 'area', striped: true},
+            {y: 'Drobak',color: 'tan', thickness: '2px', type: 'column', striped: false}
         ],
         lineMode: 'linear',
         tension: 0.9,
