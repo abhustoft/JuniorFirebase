@@ -18,12 +18,6 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             controllerAs: 'AdminCtrl'
         })
 
-        .when('/stores', {
-            templateUrl: 'views/store.html',
-            controller: 'StoreController',
-            controllerAs: 'StoreCtrl'
-        })
-
         .when('/sales', {
             templateUrl: 'views/test.html',
             controller: 'TestController',

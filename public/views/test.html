@@ -1,44 +1,23 @@
 <!-- public/views/nerd.html -->
 
 <div>
-    <h1>Sales</h1>
-
-    <p>{{ testCtrl.tagline }}</p>
+    <h2>{{ testCtrl.tagline }}</h2>
 </div>
 
 <input type="search" ng-model="testCtrl.storeChoice" placeholder="Name of a store" />
 <input type="date"   ng-model="testCtrl.fromDate"    placeholder="YYYYmmdd" />
 <input type="date"   ng-model="testCtrl.toDate"      placeholder="YYYYmmdd" />
 
-<ul class="example-animate-container">
-    <li class="animate-repeat" ng-repeat="sale in testCtrl.sales ">
-        {{$index + 1}}) {{sale.sale}} dato: {{sale.date}} {{sale.store}}
-    </li>
-    <p class="animate-repeat" ng-if="results.length == 0">
-        <strong>No results found...</strong>
-    </p>
-</ul>
 
 
-<ul class="example-animate-container">
-    <p>{{testCtrl.storeChoice}}</p>
     <button ng-click="testCtrl.getStoreSales()" type="submit">Get Store sales</button>
-    <li class="animate-repeat" ng-repeat="sale in testCtrl.sales">
-        {{$index + 1}}) Sum: {{sale.sum}} temp: {{sale.temp}} dato: {{sale.date | date: 'dd-MM-yyyy' }} store: {{sale.store}}
-    </li>
-    <p class="animate-repeat" ng-if="results.length == 0">
-        <strong>No results found...</strong>
-    </p>
-</ul>
+
 
 <button ng-click="testCtrl.checkPoint()" type="submit">Check</button>
-<button ng-click="testCtrl.initFB()" type="submit">Initialize database</button>
-
-<li ng-repeat="sale in testCtrl.list">{{ sale.date }}   Sale : {{sale.sum}}</li>
 
 <div class="row">
     <div class="col-md-12">
-        <linechart data="testCtrl.data" options="testCtrl.options" mode="" width="800" height="400"></linechart>
+        <linechart data="testCtrl.data" options="testCtrl.options" mode="" width="1200" height="800"></linechart>
     </div>
 
 </div>

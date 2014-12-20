@@ -9,23 +9,9 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
     this.storeChoice = '';
     this.fromDate = '';
     this.toDate;
-    this.storeList = [];
-
-    /*
-    this.getStoreSales = function () {
-        this.dbsel = salesService.getStoreSales(this.storeChoice, this.fromDate, this.toDate);
-    }
-    */
-
-    this.initFB = function () {
-        salesService.initDB('Storo','2013');
-        salesService.initDB('Sandvika','2013');
-        salesService.initDB('Storo','2014');
-        salesService.initDB('Sandvika','2014');
-    };
+    this.data = [];
 
     var dbRef = new Firebase('https://junioropen.firebaseio.com/StoroSales');
-
     var sync = $firebase(dbRef.orderByChild("date").startAt(20140101).endAt(20140106));
 
     // if ref points to a data collection
@@ -33,18 +19,16 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
 
     this.checkPoint = function () {
         console.log('checking');
-        sync = $firebase(dbRef.orderByChild("date").startAt(20140112).endAt(20140114));
-        this.list = sync.$asArray();
+        //sync = $firebase(dbRef.orderByChild("date").startAt(20140112).endAt(20140114));
+        //this.list = sync.$asArray();
     };
 
     /**
      * Dummy function used in Firebase so that the 'this' can be set in a query
      */
     var dummy = function (){
-        alert('testCtrl: No access, dummy');
+        alert('testCtrl: Ikke logget på?');
     };
-
-    this.data = [];
 
     /**
      *
@@ -57,6 +41,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         var from = parseInt(moment(this.fromDate).format("YYYYMMDD"),10);
         var to = parseInt(moment(this.toDate).format("YYYYMMDD"),10);
 
+        // Clean out old data
         while(this.data.length > 0) {
             this.data.pop();
         }
@@ -64,7 +49,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         var currentSaledoy = 0;
         var datapoint = 1;
 
-        if (this.storeChoice === "Storo") {
+        if (this.storeChoice === 'Storo') {
             this.options = {
                 axes: {
                     x: {key: 'x', type: 'date'},
@@ -72,6 +57,62 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
                 },
                 series: [
                     {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true}
+                ],
+                lineMode: 'linear',
+                tension: 0.9,
+                tooltip: {mode: 'scrubber', formatter: toolTip},
+                drawLegend: true,
+                drawDots: true,
+                columnsHGap: 5
+            };
+        }
+
+        if (this.storeChoice === '') {
+            this.options = {
+                axes: {
+                    x: {key: 'x', type: 'date', labelFunction: xLabels},
+                    y: {type: 'linear', min: 0, labelFunction: yLabels}
+                },
+                series: [
+                    {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true},
+                    {y: 'Sandvika',color: 'salmon', thickness: '4px', type: 'area', striped: true},
+                    {y: 'Drobak',color: 'tan', thickness: '2px', type: 'column', striped: false}
+                ],
+                lineMode: 'linear',
+                tension: 0.9,
+                tooltip: {mode: 'scrubber', formatter: toolTip},
+                drawLegend: true,
+                drawDots: true,
+                columnsHGap: 5
+            };
+        }
+
+        if (this.storeChoice === 'Sandvika') {
+            this.options = {
+                axes: {
+                    x: {key: 'x', type: 'date'},
+                    y: {type: 'linear', min: 0}
+                },
+                series: [
+                    {y: 'Sandvika', color: 'salmon', thickness: '4px', type: 'area', striped: true}
+                ],
+                lineMode: 'linear',
+                tension: 0.9,
+                tooltip: {mode: 'scrubber', formatter: toolTip},
+                drawLegend: true,
+                drawDots: true,
+                columnsHGap: 5
+            };
+        }
+
+        if (this.storeChoice === 'Drøbak') {
+            this.options = {
+                axes: {
+                    x: {key: 'x', type: 'date'},
+                    y: {type: 'linear', min: 0}
+                },
+                series: [
+                    {y: 'Drobak', color: 'tan', thickness: '4px', type: 'area', striped: true}
                 ],
                 lineMode: 'linear',
                 tension: 0.9,
