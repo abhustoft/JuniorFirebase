@@ -6,6 +6,14 @@ var param={};
 var files;
 var data;
 
+var rStream = [];
+var toStream = [];
+var csvConverter = [];
+var csvFileName = [];
+var convertCount = 0;
+var noOfFiles = 0;
+
+
 var options = {
     cwd: process.cwd()
 };
@@ -19,6 +27,8 @@ function getFileName(path){
 
     var fullFileName, fileNameWithoutExtension;
 
+    console.log('Getting file name from path, index: ' + convertCount);
+
     // replace \ to /
     while( path.indexOf("\\") !== -1 ){
         path = path.replace("\\", "/");
@@ -30,10 +40,6 @@ function getFileName(path){
 
     return fileNameWithoutExtension;
 }
-
-var rStream = [];
-var toStream = [];
-var csvConverter = [];
 
 
 /**
@@ -48,38 +54,50 @@ function parseFiles (err, fileList, stderr){
     // remove any trailing newline, otherwise last element will be "":
     fileList = fileList.replace(/\n$/, '');
     files = fileList.split('\n');
+    console.log('The raw file list:' + files.length + ' ' +files);
 
-    for (var fn = 0; fn < files.length - 1; fn++) {
-        var csvFileName = './' + files[fn];
-        console.log(csvFileName);
+    noOfFiles = files.length;
+
+    for (var fn = 0; fn < noOfFiles; fn++) {
+
+        csvFileName[fn] = './' + files[fn];
+        console.log('Registered csv File name: ' + csvFileName[fn]);
 
         csvConverter[fn] = new Converter(param);
 
         function convert(jsonObj){
-            console.log(jsonObj); //here is your result csv object
-            var fd = fs.openSync('./juniorsales/json/' + getFileName(csvFileName) + '.json','w');
+            console.log(jsonObj[0]); //here is your result csv object
+            var fd = fs.openSync('./juniorsales/json/' + getFileName(csvFileName[convertCount]) + '.json','w');
             var str = JSON.stringify(jsonObj);
             fs.writeSync(fd,str);
+            convertCount++;
         }
 
         //end_parsed will be emitted once parsing finished
         csvConverter[fn].on("end_parsed", convert);
 
-        rStream[fn]  = fs.createReadStream(csvFileName);
-        toStream[fn] = fs.createWriteStream('./juniorsales/json/' + getFileName(csvFileName) + '.json');
+        rStream[fn]  = fs.createReadStream(csvFileName[fn]);
+        toStream[fn] = fs.createWriteStream('./juniorsales/json/' + getFileName(csvFileName[fn]) + '.json');
 
-        //rStream[fn].pipe(csvConverter[fn]);
+        console.log('File loop end, fn: ' +fn + 'files: ' + files.length);
     }
+
+    console.log('The csv files that are found:'+ csvFileName.length + ' '+ csvFileName);
 }
 
 
 require('child_process')
     .exec('ls -1 juniorsales/csv/*.csv', options, parseFiles);
 
-var i = 0;
+
 function runStream () {
-    console.log('Runstream: ' + i);
-    rStream[i].pipe(csvConverter[i++]);
+    console.log('Runstream: ' + convertCount);
+    console.log('The csvsFileNames: ' + csvFileName)
+    if (convertCount < noOfFiles) {
+        rStream[convertCount].pipe(csvConverter[convertCount]);
+    } else {
+        clearInterval(timer);
+    }
 }
 
-var timer = setInterval(runStream, 5000)
+var timer = setInterval(runStream, 500)
