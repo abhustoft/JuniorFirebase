@@ -8,6 +8,8 @@
     "angular": "latest",
     "angular-route": "latest",
     "angular-resource": "latest",
+    "moment": "latest",
+    "n3-line-chart": "latest",
     "firebase": "~2.0.5",
     "firebase-simple-login": "~1.6.4",
     "angularfire": "~0.9.0"

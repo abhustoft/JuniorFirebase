@@ -5,14 +5,7 @@ var express        = require('express');
 var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
-var Firebase = require("firebase");
-
-
-var nov14 = require('./2014Nov.json');
-
-var storo = new Firebase('https://junioropen.firebaseio.com/StoroSales');
-var sandvika = new Firebase('https://junioropen.firebaseio.com/SandvikaSales');
-var drobak = new Firebase('https://junioropen.firebaseio.com/DrobakSales');
+var Firebase       = require("firebase");
 
 var salesRef = new Firebase('https://junioropen.firebaseio.com/Sales');
 
@@ -21,6 +14,7 @@ var options = {
 };
 var files;
 var data;
+
 require('child_process')
     .exec('ls -1 juniorsales/json/*.json', options, function(err, stdout, stderr){
         if(err){ console.log(stderr); throw err };
@@ -34,6 +28,7 @@ require('child_process')
             console.log(name);
 
             for (var i = 0; i < data.length; i++) {
+                console.log(data[i].sum);
                 salesRef.push(data[i]);
             }
         }
