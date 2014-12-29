@@ -74,9 +74,9 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
                     y: {type: 'linear', min: 0, labelFunction: yLabels}
                 },
                 series: [
-                    {y: 'Storo', color: 'steelblue', thickness: '4px', type: 'area', striped: true},
-                    {y: 'Sandvika',color: 'salmon', thickness: '4px', type: 'area', striped: true},
-                    {y: 'Drobak',color: 'tan', thickness: '2px', type: 'column', striped: false}
+                    {y: 'Storo',   color: 'steelblue', thickness: '4px', type: 'area',   striped: true},
+                    {y: 'Sandvika',color: 'salmon',    thickness: '4px', type: 'area',   striped: true},
+                    {y: 'Drobak',  color: 'tan',       thickness: '2px', type: 'column', striped: false}
                 ],
                 lineMode: 'linear',
                 tension: 0.9,
@@ -107,15 +107,18 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
 
         if (this.storeChoice === 'Drøbak') {
             this.options = {
+
                 axes: {
                     x: {key: 'x', type: 'date'},
                     y: {type: 'linear', min: 0}
                 },
+
                 series: [
-                    {y: 'Drobak', color: 'tan', thickness: '4px', type: 'area', striped: true}
+                    {y: 'Drobak', color: 'tan', thickness: '4px', type: 'line', axis: "y"}
                 ],
-                lineMode: 'linear',
-                tension: 0.9,
+
+                lineMode: 'cardinal',
+                tension: 0.7,
                 tooltip: {mode: 'scrubber', formatter: toolTip},
                 drawLegend: true,
                 drawDots: true,
