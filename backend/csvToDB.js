@@ -1,15 +1,18 @@
 var Converter=require("csvtojson").core.Converter;
 var fs=require("fs");
 
+var Firebase       = require("firebase");
+var salesRef = new Firebase('https://junioropen.firebaseio.com/Sales');
+
 var param={};
 
 var files;
 var data;
 
 var rStream = [];
-var toStream = [];
 var csvConverter = [];
 var csvFileName = [];
+var monthData = [];
 var convertCount = 0;
 var noOfFiles = 0;
 
@@ -19,6 +22,10 @@ var options = {
     cwd: process.cwd()
 };
 
+function rootFileName(fileName) {
+    return fileName.slice(0, fileName.lastIndexOf("."));
+}
+
 /**
  *
  * @param err
@@ -26,8 +33,6 @@ var options = {
  * @param stderr
  */
 function parseFiles (files){
-
-    //console.log('The raw file list:' + files.length + ' ' +files);
 
     noOfFiles = files.length;
 
@@ -40,9 +45,11 @@ function parseFiles (files){
 
         function convert(jsonObj){
             console.log(jsonObj[0]); //here is your result csv object
-            var fd = fs.openSync(dir + 'json/' + files[convertCount] + '.json','w');
+            var fd = fs.openSync(dir + 'json/' + rootFileName(files[convertCount]) + '.json','w');
             var str = JSON.stringify(jsonObj);
             fs.writeSync(fd,str);
+            monthData[convertCount] = jsonObj;
+            salesRef.push(jsonObj); //Decompose????
             convertCount++;
         }
 
@@ -50,13 +57,7 @@ function parseFiles (files){
         csvConverter[fn].on("end_parsed", convert);
 
         rStream[fn]  = fs.createReadStream(csvFileName[fn]);
-        var fileNameWithoutExtension = files[fn].slice( 0, files[fn].lastIndexOf(".") );
-        toStream[fn] = fs.createWriteStream(dir + 'json/' + fileNameWithoutExtension + '.json');
-
-        //console.log('File loop end, fn: ' +fn + 'files: ' + files.length);
     }
-
-    //console.log('The csv files that are found:'+ csvFileName.length + ' '+ csvFileName);
 }
 
 var files = fs.readdirSync(dir + 'csv/');
