@@ -131,6 +131,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         this.data.push({'x': 0, 'Storo': 0, 'Sandvika': 0, 'Drobak': 0});
 
         var selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
+
         selectionRef.on("child_added", function(snapshot) {
             console.log('The key: ' + snapshot.key() + ' ' +
             snapshot.exportVal().sum + ' ' +
@@ -173,7 +174,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
             if (store === 'Drøbak') {
                 this.data[datapoint-1].Drobak = sum;
             }
-
+            this.$apply();  // $scope.$apply() 
         },
         dummy,
         this);
@@ -189,7 +190,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
     };
 
     var toolTip = function (x, y, series) {
-        var date = moment(x).format('D. MMM');
+        var date = moment(x).format('ddd D. MMM');
         var value = Math.round(y).toString(10) + ',-';
         return date + ': ' + value;
     };
