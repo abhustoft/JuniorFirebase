@@ -30,13 +30,17 @@ app.factory('storeSalesFactory', function($resource) {
 app.value('FireDB', 'https://junioropen.firebaseio.com/');
 
 app.run(function (firebaseService) {
+    /*
     firebaseService.FBref().onAuth(function(authData ) {
         if (authData) {
             console.log("Authenticated with uid:", authData.uid + ' email: ' + authData.password.email);
+            //mainCtrl.setUser(authData.uid);
         } else {
-            console.log("Client unauthenticated.")
+            console.log("Client unauthenticated.");
+            //mainCtrl.noUser();
         }
     });
+    */
 })
 
 

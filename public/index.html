@@ -31,6 +31,7 @@
 
     <!-- ANGULAR CUSTOM -->
     <script src="js/app.js"></script>
+    <script src="js/services/FirebaseService.js"></script>
     <script src="js/controllers/MainCtrl.js"></script>
     <script src="js/controllers/AdminCtrl.js"></script>
     <script src="js/controllers/StoreCtrl.js"></script>
@@ -38,11 +39,10 @@
     <script src="js/controllers/LoginCtrl.js"></script>
     <script src="js/controllers/RegisterCtrl.js"></script>
     <script src="js/services/FirebaseSalesService.js"></script>
-    <script src="js/services/FirebaseService.js"></script>
     <script src="js/services/AuthService.js"></script>
     <script src="js/appRoutes.js"></script>
 </head>
-<body ng-app="sampleApp" ng-controller="MainController as mainCtrl">
+<body ng-app="sampleApp" ng-controller="MainController">
 <div class="container-fluid">
 
     <!-- HEADER -->
@@ -68,6 +68,10 @@
 
             <ul class="nav navbar-nav">
                 <li><a href="/register">Register</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav">
+                <li>User: {{user}}</li>
             </ul>
         </div>
     </nav>
