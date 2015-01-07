@@ -9,7 +9,6 @@ angular.module('mainCtrl', []).controller('MainController', function(firebaseSer
         // $scope.$apply() worked for login, but failed due to multiple apply()s
         // in progress on logout
         $timeout(function() {
-            var tt = 0;
             if (typeof(authData) != 'undefined' && authData != null) {
                 console.log("Authenticated with uid:", authData.uid + ' email: ' + authData.password.email);
                 $scope.user = authData.password.email;
@@ -17,7 +16,7 @@ angular.module('mainCtrl', []).controller('MainController', function(firebaseSer
                 console.log("Client unauthenticated.");
                 $scope.user = 'not authenticated';
             }
-            $log.log($scope.user, tt);
+            $log.log($scope.user);
         },0);
     }
 
