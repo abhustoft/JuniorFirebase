@@ -12,7 +12,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
     this.data = [];
 
     var datapoint = 1;  // Used in addSale - index of graph data
-    var currentSaledoy = 0;
+    var currentSaleDOY = 0;
 
     var dbRef = new Firebase('https://junioropen.firebaseio.com/StoroSales');
     var sync = $firebase(dbRef.orderByChild("date").startAt(20140101).endAt(20140106));
@@ -53,12 +53,12 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
         var mnt = moment(str, 'YYYYMMDD');
         var date = moment(mnt).toDate();
 
-        var thisSaledoy = moment(date).dayOfYear();
+        var thisSaleDOY = moment(date).dayOfYear();
 
         // Got a new date?
-        if (currentSaledoy != thisSaledoy) {
+        if (currentSaleDOY != thisSaleDOY) {
 
-            currentSaledoy = thisSaledoy;
+            currentSaleDOY = thisSaleDOY;
 
             // If previous package has 0 for all sales: dont push, reuse package
             if (this.data[datapoint - 1].Storo === 0 &&

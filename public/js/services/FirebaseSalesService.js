@@ -27,35 +27,4 @@ angular.module('sampleApp').service('salesService', function (firebaseService) {
             }
         }
     };
-
-    /**
-     * Dummy function used in Firebase so that the 'this' can be set in a query
-     */
-    var dummy = function (){
-        alert('No access, dummy');
-    };
-
-    /**
-     *
-     * @param {sting} store The store name
-     * @param {date} fromDate The first date to fetch sales for - as provided by the browsers date input form
-     * @param {date} toDate The last date to fetch sales for - as provided by the browsers date input form
-     */
-    this.getStoreSales = function (store, fromDate, toDate) {
-
-        var from = parseInt(moment(fromDate).format("YYYYMMDD"),10);
-        var to = parseInt(moment(toDate).format("YYYYMMDD"),10);
-
-        var dbRef = firebaseService.FBref(store + 'Sales');
-        var selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
-        selectionRef.on("child_added", function(snapshot) {
-                console.log('The key: ' + snapshot.key() + ' ' +
-                snapshot.exportVal().sum + ' ' +
-                snapshot.exportVal().date + ' ' +
-                snapshot.exportVal().store);
-            },
-            dummy,
-            this);
-        return selectionRef;
-    }
 });
