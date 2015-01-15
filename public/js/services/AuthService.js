@@ -52,8 +52,8 @@ angular.module('sampleApp').service('authService', function (firebaseService, $q
     };
 
     /**
-     *
-     * @returns {*}
+     * Check with Firebase if user is logged in
+     * @returns {q}
      */
     this.checkAuth = function () {
 
