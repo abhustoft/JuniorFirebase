@@ -1,4 +1,4 @@
-angular.module('sampleApp').service('authService', function (firebaseService) {
+angular.module('sampleApp').service('authService', function (firebaseService, $q) {
 
     var loginRef = firebaseService.FBref();
 
@@ -49,6 +49,27 @@ angular.module('sampleApp').service('authService', function (firebaseService) {
             }
         });
 
+    };
+
+    /**
+     *
+     * @returns {*}
+     */
+    this.checkAuth = function () {
+
+        return $q(function(resolve, reject) {
+
+            firebaseService.FBref().onAuth(function (authData) {
+
+                if (typeof(authData) != 'undefined' && authData != null) {
+                    console.log("Authenticated with uid:", authData.uid + ' email: ' + authData.password.email);
+                    resolve(authData.password.email);
+                } else {
+                    console.log("authService: Client unauthenticated.");
+                    reject('authService: not authenticated');
+                }
+            });
+        });
     };
 
     /**
