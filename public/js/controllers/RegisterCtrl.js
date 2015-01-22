@@ -1,6 +1,6 @@
-angular.module('registerCtrl', []).controller('RegisterController', function($firebase, authService) {
+angular.module('registerCtrl', []).controller('RegisterController', function($firebase, firebaseAuthService) {
 
     this.register =  function (email, password) {
-        authService.register(email,password);
+        firebaseAuthService.register(email,password);
     }
 })

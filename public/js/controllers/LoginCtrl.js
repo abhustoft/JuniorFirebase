@@ -1,13 +1,13 @@
 
-angular.module('loginCtrl', []).controller('LoginController', function(authService) {
+angular.module('loginCtrl', []).controller('LoginController', function(firebaseAuthService) {
 
     this.login =  function (email, password) {
-        authService.login(email, password);
+        firebaseAuthService.login(email, password);
 
     }
 
     this.logout =  function () {
-        authService.logout();
+        firebaseAuthService.logout();
 
     }
 

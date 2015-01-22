@@ -1,11 +1,11 @@
 
-angular.module('mainCtrl', []).controller('MainController', function(firebaseService, $log, $scope, $timeout, authService) {
+angular.module('mainCtrl', []).controller('MainController', function(firebaseService, $log, $scope, $timeout, firebaseAuthService) {
 
     $scope.tagline = 'Bla bla';
     $scope.user = 'Checking login status';
 
     var loggedIn = function (data) {
-        $scope.user = data;
+        $scope.user = 'Logged in: ' + data;
         console.log('mainCtrl data:' + data);
     };
 
@@ -17,7 +17,7 @@ angular.module('mainCtrl', []).controller('MainController', function(firebaseSer
     angular.element(document).ready(function () {
 
         // Call to get status on load
-        authService.checkAuth().then(loggedIn, loggedOut);
+        firebaseAuthService.checkAuth().then(loggedIn, loggedOut);
     });
 
 

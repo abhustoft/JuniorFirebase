@@ -1,4 +1,4 @@
-angular.module('sampleApp').service('authService', function (firebaseService, $q) {
+angular.module('sampleApp').service('firebaseAuthService', function (firebaseService, $q) {
 
     var loginRef = firebaseService.FBref();
 
@@ -65,8 +65,8 @@ angular.module('sampleApp').service('authService', function (firebaseService, $q
                     console.log("Authenticated with uid:", authData.uid + ' email: ' + authData.password.email);
                     resolve(authData.password.email);
                 } else {
-                    console.log("authService: Client unauthenticated.");
-                    reject('authService: not authenticated');
+                    console.log("firebaseAuthService: Client unauthenticated.");
+                    reject('firebaseAuthService: not authenticated');
                 }
             });
         });
