@@ -3,8 +3,7 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
                                                                      salesService,
                                                                      storeSalesFactory,
                                                                      $firebase,
-                                                                     firebaseService,
-                                                                     $filter) {
+                                                                     firebaseService) {
     this.tagline = 'The sales!';
     this.storeChoice = '';
     this.fromDate = '';
@@ -172,22 +171,33 @@ angular.module('testCtrl', []).controller('TestController', function(saleFactory
      */
     this.getStoreSales = function () {
 
-        var from = parseInt(moment(this.fromDate).format("YYYYMMDD"),10);
-        var to = parseInt(moment(this.toDate).format("YYYYMMDD"),10);
-        var dbRef = firebaseService.FBref('Sales');
-        var selectionRef;
+        firebaseService.getStoreSales(this);
 
-        // Clean out old data
-        while(this.data.length > 0) {
-            this.data.pop();
-        }
-        datapoint = 1;
-        this.data.push({'x': 0, 'Storo': 0, 'Sandvika': 0, 'Drobak': 0});
-
-        this.options = graphOptions(this.storeChoice);
-        selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
-        selectionRef.on("child_added", addSale, dummy, this);
+        //var from = parseInt(moment(this.fromDate).format("YYYYMMDD"),10);
+        //var to   = parseInt(moment(this.toDate).format("YYYYMMDD"),10);
+        //var dbRef = firebaseService.FBref('Sales');
+        //var selectionRef;
+        //
+        //// Clean out old data
+        //while(this.data.length > 0) {
+        //    this.data.pop();
+        //}
+        //datapoint = 1;
+        //this.data.push({'x': 0, 'Storo': 0, 'Sandvika': 0, 'Drobak': 0});
+        //
+        //this.options = graphOptions(this.storeChoice);
+        //selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
+        //selectionRef.on("child_added", addSale, dummy, this);
     };
+
+    var gotSales = function (sales) {
+        ;
+    }
+
+    var failed = function (fail) {
+        ;
+    }
+
 
     /**
      * Format the labels on the y-axis
