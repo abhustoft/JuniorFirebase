@@ -11,8 +11,38 @@ angular.module('sampleApp').service('firebaseService', function (FireDB) {
         }
     };
 
+    /**
+     * Format the labels on the y-axis
+     * @param y The y-value - a sales sum
+     * @returns {string} Label value
+     */
+    var yLabels = function (y) {
+        return 'NOK ' + Math.round(y).toString(10);
+    };
 
-    var graphOptions = function (store) {
+    /**
+     * Format the labels on the x-axis
+     * @param x The x-value - a date
+     * @returns {Date} Formatted label
+     */
+    var xLabels = function (x) {
+        return moment(x).format('DD.MM');
+    };
+
+    /**
+     * Format the tool tip on hover
+     * @param x
+     * @param y
+     * @param series
+     * @returns {string}
+     */
+    var toolTip = function (x, y, series) {
+        var date = moment(x).format('ddd D. MMM');
+        var value = Math.round(y).toString(10) + ',-';
+        return date + ': ' + value;
+    };
+
+    this.graphOptions = function (store) {
         var options = {};
 
         if (store === 'Storo') {
@@ -112,7 +142,6 @@ angular.module('sampleApp').service('firebaseService', function (FireDB) {
         datapoint = 1;
         self.data.push({'x': 0, 'Storo': 0, 'Sandvika': 0, 'Drobak': 0});
 
-        self.options = graphOptions(this.storeChoice);
         selectionRef = dbRef.orderByChild("date").startAt(from).endAt(to);
         selectionRef.on("child_added", addSale, dummy, self);
     };
@@ -172,5 +201,33 @@ angular.module('sampleApp').service('firebaseService', function (FireDB) {
      */
     var dummy = function (){
         alert('testCtrl: Ikke logget på?');
+    };
+
+    /**
+     * Months and days need to be two digits in date string
+     * @param {integer} number The number to pad
+     * @param {integer} digits The radix
+     * @returns {string} The padded string value of the number
+     */
+    var padDigits = function (number, digits) {
+        return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+    };
+
+    this.initDB = function (store, year) {
+
+        var dbRef = firebaseService.FBref();
+        var days = {};
+        var dateStr = ' ';
+        var date = 0;
+
+        for (var m = 1; m < 13; m++) {
+            for (var i = 1; i < 32; i++) {
+                dateStr = year + padDigits(m,2) + padDigits(i,2);
+                dbRef =  firebaseService.FBref(store + 'Sales');
+                date = parseInt(dateStr,10);
+                days = JSON.parse('{"sum": ' + i + ', "temp": 23,"store": "' + store + '","date":' + date + '}');
+                dbRef.push(days);
+            }
+        }
     };
 });
