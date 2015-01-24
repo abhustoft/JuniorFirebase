@@ -20,6 +20,5 @@ angular.module('mainCtrl', []).controller('MainController', function(firebaseSer
         firebaseAuthService.checkAuth().then(loggedIn, loggedOut);
     });
 
-
 });
 
