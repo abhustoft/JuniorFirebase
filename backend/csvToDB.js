@@ -1,4 +1,4 @@
-var Converter=require("csvtojson").core.Converter;
+var Converter=require("csvtojson").Converter;
 var fs=require("fs");
 
 var Firebase       = require("firebase");
@@ -13,7 +13,7 @@ var csvFileName  = [];
 var convertCount = 0;
 var noOfFiles    = 0;
 
-var dir = '/Users/abh/Projects/JuniorFirebase/juniorsales/';
+var dir = '../juniorsales/';
 
 /**
  * Push JSON object, a day's sale, to Firebase
@@ -22,6 +22,8 @@ var dir = '/Users/abh/Projects/JuniorFirebase/juniorsales/';
 function toDB(jsonObj){
     for (var c = 0; c < jsonObj.length; c++) {
         salesRef.push(jsonObj[c]);
+        //console.log('Push to DB: ');
+        //console.log(jsonObj[c]);
     }
     console.log('Converted: ' + csvFileName[convertCount]);
     convertCount++;

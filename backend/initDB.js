@@ -16,7 +16,7 @@ var files;
 var data;
 
 require('child_process')
-    .exec('ls -1 /Users/abh/Projects/JuniorFirebase/juniorsales/json/*.json', options, function(err, stdout, stderr){
+    .exec('ls -1 ../juniorsales/json/*.json', options, function(err, stdout, stderr){
         if(err){ console.log(stderr); throw err };
         // remove any trailing newline, otherwise last element will be "":
         stdout = stdout.replace(/\n$/, '');
